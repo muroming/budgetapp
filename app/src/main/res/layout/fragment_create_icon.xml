@@ -1,0 +1,88 @@
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:id="@+id/icon_fragemnt"
+        android:gravity="center_horizontal">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_icon_header"
+            android:text="@string/create_icon_header"
+            android:textSize="25sp"
+            android:layout_marginTop="5dp"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_icon_title"
+            android:hint="@string/create_icon_title"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_icon_cost"
+            android:hint="@string/create_icon_cost"
+            android:inputType="number"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_marginTop="60dp" android:gravity="center_horizontal">
+        <ImageView
+                android:layout_marginRight="10dp"
+                android:id="@+id/create_icon_food"
+                android:src="@drawable/food"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+
+        <ImageView
+                android:layout_marginRight="10dp"
+                android:id="@+id/create_icon_transport"
+                android:src="@drawable/car"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+
+        <ImageView
+                android:layout_marginRight="10dp"
+                android:id="@+id/create_icon_clothes"
+                android:src="@drawable/clothes"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+
+        <ImageView
+                android:layout_marginRight="10dp"
+                android:id="@+id/create_icon_other"
+                android:src="@drawable/money"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_icon_selected"
+            android:text="TYPE"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="0dp"
+    android:layout_weight="1"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/create_icon_button"
+            android:layout_gravity="right"/>
+
+</LinearLayout>
