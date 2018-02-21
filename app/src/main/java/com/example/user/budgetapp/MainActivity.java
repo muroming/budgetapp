@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import layout.IconsFragment;
+import layout.TotalInfoFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -19,6 +20,14 @@ public class MainActivity extends FragmentActivity {
             fragment = new IconsFragment();
             fm.beginTransaction()
                     .add(R.id.icon_container, fragment)
+                    .commit();
+        }
+
+        fragment = fm.findFragmentById(R.id.total_info_container);
+        if(fragment == null){
+            fragment = new TotalInfoFragment();
+            fm.beginTransaction()
+                    .add(R.id.total_info_container, fragment)
                     .commit();
         }
     }

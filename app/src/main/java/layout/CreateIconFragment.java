@@ -10,10 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.example.user.budgetapp.R;
 
 import java.util.ArrayList;
@@ -56,19 +53,19 @@ public class CreateIconFragment extends Fragment {
                 public void onClick(View v) {
                     switch (icons.indexOf(view)) {
                         case 0: {
-                            selected.setText("Food");
+                            selected.setText(getString(R.string.purpose_food));
                             break;
                         }
                         case 1: {
-                            selected.setText("Transport");
+                            selected.setText(getString(R.string.purpose_transport));
                             break;
                         }
                         case 2: {
-                            selected.setText("Clothes");
+                            selected.setText(getString(R.string.purpose_clothes));
                             break;
                         }
                         case 3: {
-                            selected.setText("Other");
+                            selected.setText(R.string.purpose_other);
                             break;
                         }
                     }
@@ -111,6 +108,11 @@ public class CreateIconFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {//Applying icon
             @Override
             public void onClick(View v) {
+                boolean isGood = true;
+                if(cost.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "No cost", Toast.LENGTH_SHORT).show();
+                    isGood = false;
+                }
                 switch (selected.getText().toString()) {
                     case "Food": {
                         icon.setPicId(Icon.STATE.FOOD);
@@ -128,10 +130,16 @@ public class CreateIconFragment extends Fragment {
                         icon.setPicId(Icon.STATE.OTHER);
                         break;
                     }
+                    default:{
+                        Toast.makeText(getContext(), "No purpose selected", Toast.LENGTH_SHORT).show();
+                        isGood = false;
+                    }
                 }
-                IconDB.insertIcon(icon);
-                getActivity().setResult(0);
-                getActivity().finish();
+                if(isGood) {
+                    IconDB.getDB().insertIcon(icon);
+                    getActivity().setResult(0);
+                    getActivity().finish();
+                }
             }
         });
 

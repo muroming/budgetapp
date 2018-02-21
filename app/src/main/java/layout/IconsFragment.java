@@ -4,9 +4,7 @@ package layout;
 import Utils.Adapters.IconAdapter;
 import Utils.DataStructures.Icon;
 import Utils.DataStructures.IconDB;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,14 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 import com.example.user.budgetapp.CreateIconActivity;
 import com.example.user.budgetapp.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,15 +22,16 @@ import java.util.ArrayList;
 public class IconsFragment extends Fragment {
 
     public static final int CREATE_ICON = 1;
+    public static final String SHOW_INFO = "InfoDialog";
 
-    RecyclerView recyclerView;
-    IconAdapter adapter;
+    private RecyclerView recyclerView;
+    private IconAdapter adapter;
 
     public IconsFragment() {
         // Required empty public constructor
     }
 
-    public View.OnClickListener getListener(Icon.STATE state){
+    public View.OnClickListener getListener(Icon.STATE state, final Bundle bundle){
         if(state == Icon.STATE.ADD){
             return new View.OnClickListener() {
                 @Override
@@ -50,7 +44,9 @@ public class IconsFragment extends Fragment {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Clicked!", Toast.LENGTH_SHORT).show();
+                    IconInfo info = new IconInfo();
+                    info.setArguments(bundle);
+                    info.show(getFragmentManager(), SHOW_INFO);
                 }
             };
         }
@@ -58,10 +54,14 @@ public class IconsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CREATE_ICON && resultCode == 0) {
-            adapter.setData(IconDB.getIcons());
-            adapter.notifyDataSetChanged();
+        if ((requestCode == CREATE_ICON) && resultCode == 0) {
+            updateUI();
         }
+    }
+
+    void updateUI(){
+        adapter.setData(IconDB.getDB().getIcons());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -78,31 +78,23 @@ public class IconsFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void init_adapter() {
         adapter = new IconAdapter(this);
-        SharedPreferences preferences = getContext().getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = preferences.getString("icons", "");
-        if(json.equals("")){
-            ArrayList<Icon> data = new ArrayList<>();
-            data.add(new Icon("","", Icon.STATE.ADD));
-            IconDB.setIcons(data);
-        }else{
-            ArrayList<Icon> data = gson.fromJson(json, new TypeToken<ArrayList<Icon>>(){}.getType());
-            IconDB.setIcons(data);
-        }
-        adapter.setData(IconDB.getIcons());
+        IconDB.getDB().setContext(getContext());
+        IconDB.getDB().loadIcons();
+        adapter.setData(IconDB.getDB().getIcons());
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        SharedPreferences preferences = getContext().getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(IconDB.getIcons());
-        editor.putString("icons", json);
-        editor.apply();
+        IconDB.getDB().saveIcons();
     }
 }

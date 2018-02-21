@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">BudgetApp</string>
+    <string name="app_name">Budget App</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create_icon_title">Title</string>
     <string name="create_icon_header">Create new icon</string>
     <string name="create_icon_cost">Cost</string>
     <string name="shared_preferences">SHPreferences</string>
+    <string name="purpose_null">Purpose</string>
+    <string name="purpose_food">Food</string>
+    <string name="purpose_transport">Transport</string>
+    <string name="purpose_clothes">Clothes</string>
+    <string name="purpose_other">Other</string>
 </resources>
