@@ -2,6 +2,8 @@ package Utils.DataStructures;
 
 import com.example.user.budgetapp.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class Icon {
@@ -11,6 +13,7 @@ public class Icon {
 
     private String title, cost;
     private STATE picId;
+    private Date date;
 
     private UUID id;
 
@@ -19,6 +22,15 @@ public class Icon {
         this.cost = cost;
         this.picId = picId;
         id = UUID.randomUUID();
+    }
+
+    public String getDate() {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM 'at' HH:mm");
+        return format.format(date);
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public UUID getId() {

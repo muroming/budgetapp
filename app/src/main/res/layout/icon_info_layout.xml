@@ -24,19 +24,26 @@
     </RelativeLayout>
 
     <TextView
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/icon_info_title"
             android:text="@string/create_icon_title"
-            android:textSize="15sp"/>
+            android:textSize="18sp"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/icon_info_cost"
             android:text="@string/create_icon_cost"
-            android:textSize="15sp"/>
+            android:textSize="18sp"/>
 
-    <TextView android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+    <TextView
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/icon_info_date"
+            android:text="Date"/>
 </LinearLayout>

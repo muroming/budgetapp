@@ -14,6 +14,7 @@ import android.widget.*;
 import com.example.user.budgetapp.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,10 +22,9 @@ import java.util.List;
  */
 public class CreateIconFragment extends Fragment {
 
-    EditText title, cost;
-    TextView selected;
-    Button addButton;
-    List<ImageView> icons;
+    private EditText cost;
+    private TextView selected;
+    private List<ImageView> icons;
 
     public CreateIconFragment() {
         // Required empty public constructor
@@ -37,9 +37,9 @@ public class CreateIconFragment extends Fragment {
         // Inflate the layout for this fragment
         final Icon icon = new Icon();
         View v = inflater.inflate(R.layout.fragment_create_icon, container, false);
-        title = v.findViewById(R.id.create_icon_title);
+        EditText title = v.findViewById(R.id.create_icon_title);
         cost = v.findViewById(R.id.create_icon_cost);
-        addButton = v.findViewById(R.id.create_icon_button);
+        Button addButton = v.findViewById(R.id.create_icon_button);
         icons = new ArrayList<>();
         icons.add((ImageView) v.findViewById(R.id.create_icon_food));
         icons.add((ImageView) v.findViewById(R.id.create_icon_transport));
@@ -136,6 +136,7 @@ public class CreateIconFragment extends Fragment {
                     }
                 }
                 if(isGood) {
+                    icon.setDate(new Date());
                     IconDB.getDB().insertIcon(icon);
                     getActivity().setResult(0);
                     getActivity().finish();

@@ -22,13 +22,14 @@ public class IconInfo extends DialogFragment {
 
         ImageView icon = v.findViewById(R.id.icon_info_pic);
         TextView type = v.findViewById(R.id.icon_info_type), title = v.findViewById(R.id.icon_info_title),
-                cost = v.findViewById(R.id.icon_info_cost);
+                cost = v.findViewById(R.id.icon_info_cost), date = v.findViewById(R.id.icon_info_date);
 
         final Bundle args = getArguments();
         icon.setImageResource(args.getInt("icon"));
         type.setText(args.getString("type"));
         title.setText(args.getString("title"));
         cost.setText(args.getString("cost"));
+        date.setText("Created: " + args.getString("date"));
 
         return new AlertDialog.Builder(getContext())
                 .setView(v)

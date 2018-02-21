@@ -46,6 +46,9 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ViewHolder> {
         b.putString("type", data.getState().toString());
         b.putString("title", data.getTitle());
         b.putString("cost", data.getCost());
+        if(data.getState()!= Icon.STATE.ADD) {
+            b.putString("date", data.getDate());
+        }
 
         holder.view.setOnClickListener(fragment.getListener(data.getState(), b));
         if(data.getState() != Icon.STATE.ADD){
