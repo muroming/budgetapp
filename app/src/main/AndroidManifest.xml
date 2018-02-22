@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateIconActivity"/>
+        <activity android:name=".CreditCardActivity">
+        </activity>
     </application>
 
 </manifest>
