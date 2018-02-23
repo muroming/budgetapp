@@ -1,6 +1,7 @@
 package layout;
 
 
+import Utils.DataStructures.CreditCardDB;
 import Utils.DataStructures.Icon;
 import Utils.DataStructures.IconDB;
 import android.os.Bundle;
@@ -135,9 +136,10 @@ public class CreateIconFragment extends Fragment {
                         isGood = false;
                     }
                 }
-                if(isGood) {
+                if(isGood) {//Add icon and spent money
                     icon.setDate(new Date());
                     IconDB.getDB().insertIcon(icon);
+                    CreditCardDB.getDatabase().spendMoney(Integer.valueOf(cost.getText().toString()));
                     getActivity().setResult(0);
                     getActivity().finish();
                 }

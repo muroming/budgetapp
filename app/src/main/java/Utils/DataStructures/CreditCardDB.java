@@ -13,10 +13,14 @@ public class CreditCardDB {
     private List<CreditCard> cards;
     private CreditCard currentCard;
     private Context context;
+    private int moneySpend;
 
     private static CreditCardDB database;
 
     private CreditCardDB() {
+        cards = new ArrayList<>();
+        currentCard = null;
+        moneySpend = 0;
     }
 
     public static CreditCardDB getDatabase() {
@@ -24,6 +28,14 @@ public class CreditCardDB {
             database = new CreditCardDB();
         }
         return database;
+    }
+
+    public int getMoneySpend() {
+        return moneySpend;
+    }
+
+    public void setMoneySpend(int moneySpend) {
+        this.moneySpend = moneySpend;
     }
 
     public void spendMoney(int amount) {

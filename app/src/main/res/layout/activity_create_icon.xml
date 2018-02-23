@@ -3,4 +3,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/create_icon_container"
-        xmlns:android="http://schemas.android.com/apk/res/android"/>
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:id="@+id/toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:popupTheme="@style/Theme.AppCompat.Light"/>
+
+</FrameLayout>
