@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.user.budgetapp.R;
+import layout.CreditCardFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,13 @@ public class CreditCardAdapter extends RecyclerView.Adapter<CreditCardAdapter.Vi
     List<CreditCard> cards;
     Context context;
     LayoutInflater inflater;
+    CreditCardFragment creditCardFragment;
 
-    public CreditCardAdapter(Context context) {
-        this.context = context;
+    public CreditCardAdapter(CreditCardFragment fragment) {
+        context = fragment.getContext();
         cards = new ArrayList<>();
         inflater = LayoutInflater.from(context);
+        creditCardFragment = fragment;
     }
 
     @Override
@@ -38,12 +40,8 @@ public class CreditCardAdapter extends RecyclerView.Adapter<CreditCardAdapter.Vi
         holder.logo.setImageResource(data.getPicId());
         holder.title.setText(data.getTitle());
         holder.money.setText(data.getMoneyString());
-        holder.addMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.addMoney.setOnClickListener(creditCardFragment.getListener(null));//Listener for plus
+        holder.view.setOnClickListener(creditCardFragment.getListener(data));
     }
 
     @Override
@@ -58,9 +56,11 @@ public class CreditCardAdapter extends RecyclerView.Adapter<CreditCardAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView logo, addMoney;
         TextView title, money;
+        View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            view = itemView;
             logo = itemView.findViewById(R.id.card_pic);
             title = itemView.findViewById(R.id.card_title);
             money = itemView.findViewById(R.id.card_money);

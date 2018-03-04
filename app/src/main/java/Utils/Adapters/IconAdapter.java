@@ -1,10 +1,8 @@
 package Utils.Adapters;
 
 import Utils.DataStructures.Icon;
-import Utils.DataStructures.IconDB;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.user.budgetapp.R;
+import layout.IconInfo;
 import layout.IconsFragment;
 
 import java.util.List;
@@ -42,38 +41,17 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ViewHolder> {
         holder.icon.setImageResource(data.getPicId());
 
         Bundle b = new Bundle();
-        b.putInt("icon", data.getPicId());
-        b.putString("type", data.getState().toString());
-        b.putString("title", data.getTitle());
-        b.putString("cost", data.getCost());
-        if(data.getState()!= Icon.STATE.ADD) {
-            b.putString("date", data.getDate());
-        }
+        b.putInt(IconInfo.Icon, data.getPicId());
+        b.putString(IconInfo.Type, data.getState().toString());
+        b.putString(IconInfo.Title, data.getTitle());
+        b.putString(IconInfo.Cost, data.getCost());
+        b.putString(IconInfo.Date, data.getDate());
+        b.putString(IconInfo.CardTitle, data.getCard().getTitle());
+        b.putInt(IconInfo.CardIcon, data.getCard().getPicId());
 
-        holder.view.setOnClickListener(fragment.getListener(data.getState(), b));
-        if(data.getState() != Icon.STATE.ADD){
-            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    IconDB.getDB().deleteIconById(data.getId());
-                    getAdapter().notifyDataSetChanged();
-                    Snackbar bar = Snackbar.make(v, "Deleted", Snackbar.LENGTH_LONG)
-                            .setAction("UNDO", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    IconDB.getDB().restoreLastDeleted();
-                                    getAdapter().notifyDataSetChanged();
-                                }
-                            });
-                    bar.show();
-                    return true;
-                }
-            });
-        }
-    }
+        holder.view.setOnClickListener(fragment.getListener(b));
 
-    private IconAdapter getAdapter(){
-        return this;
+        holder.view.setOnLongClickListener(fragment.getListener(data.getId(), data.getCostInt(), this));
     }
 
     @Override

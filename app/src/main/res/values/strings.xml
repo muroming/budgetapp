@@ -12,4 +12,10 @@
     <string name="purpose_clothes">Clothes</string>
     <string name="purpose_other">Other</string>
     <string name="card_selection_warning">No card selected</string>
+    <string name="icon_delete_text">Delete only icon or the whole transaction?</string>
+
+    <string-array name="cards_spinner">
+        <item>Cash</item>
+        <item>Current card</item>
+    </string-array>
 </resources>

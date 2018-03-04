@@ -13,10 +13,11 @@ import java.util.UUID;
 public class IconDB {
     private static IconDB iconDB;
 
-    private IconDB(){}
+    private IconDB() {
+    }
 
-    public static IconDB getDB(){
-        if(iconDB == null){
+    public static IconDB getDB() {
+        if (iconDB == null) {
             iconDB = new IconDB();
         }
         return iconDB;
@@ -32,7 +33,7 @@ public class IconDB {
         return icons;
     }
 
-    public void setContext(Context c){
+    public void setContext(Context c) {
         context = c;
     }
 
@@ -41,13 +42,13 @@ public class IconDB {
     }
 
     public void insertIcon(Icon icon) {
-        icons.add(icons.size() - 1, icon);
+        icons.add(icons.size(), icon);
         saveIcons();
     }
 
-    public void deleteIconById(UUID id){
-        for(Icon icon : icons){
-            if(icon.getId().equals(id)){
+    public void deleteIconById(UUID id) {
+        for (Icon icon : icons) {
+            if (icon.getId().equals(id)) {
                 lastDeleted = icon;
                 indLastDeleted = icons.indexOf(icon);
                 icons.remove(icon);
@@ -57,21 +58,30 @@ public class IconDB {
         saveIcons();
     }
 
-    public void loadIcons(){
+    public Icon getIconById(UUID id){
+        for (Icon icon : icons) {
+            if (icon.getId().equals(id)) {
+                return icon;
+            }
+        }
+        return null;
+    }
+
+    public void loadIcons() {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_preferences), Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = preferences.getString("icons", "");
-        if(json.equals("")){
+        if (json.equals("")) {
             ArrayList<Icon> data = new ArrayList<>();
-            data.add(new Icon("","", Icon.STATE.ADD));
             setIcons(data);
-        }else{
-            ArrayList<Icon> data = gson.fromJson(json, new TypeToken<ArrayList<Icon>>(){}.getType());
+        } else {
+            ArrayList<Icon> data = gson.fromJson(json, new TypeToken<ArrayList<Icon>>() {
+            }.getType());
             setIcons(data);
         }
     }
 
-    public void saveIcons(){
+    public void saveIcons() {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_preferences), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
@@ -80,7 +90,7 @@ public class IconDB {
         editor.apply();
     }
 
-    public void restoreLastDeleted(){
+    public void restoreLastDeleted() {
         icons.add(indLastDeleted, lastDeleted);
         saveIcons();
     }

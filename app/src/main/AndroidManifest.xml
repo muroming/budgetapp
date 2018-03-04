@@ -16,9 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CreateIconActivity"/>
-        <activity android:name=".CreditCardActivity">
-        </activity>
     </application>
 
 </manifest>

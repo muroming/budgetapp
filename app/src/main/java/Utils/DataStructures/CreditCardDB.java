@@ -40,12 +40,29 @@ public class CreditCardDB {
 
     public void spendMoney(int amount) {
         currentCard.setMoney(currentCard.getMoney() - amount);
+        moneySpend += amount;
         saveCards();
     }
 
-    public void addMoney(int amout) {
-        currentCard.setMoney(currentCard.getMoney() + amout);
+    public void spendMoney(Icon icon){
+        icon.getCard().setMoney(icon.getCard().getMoney() - icon.getCostInt());
+        moneySpend += icon.getCostInt();
         saveCards();
+    }
+
+    public void deleteTransaction(Icon icon){
+        icon.getCard().setMoney(icon.getCard().getMoney() + icon.getCostInt());
+        moneySpend -= icon.getCostInt();
+        saveCards();
+    }
+
+    public void addMoney(int amount) {
+        currentCard.setMoney(currentCard.getMoney() + amount);
+        saveCards();
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public List<CreditCard> getCards() {
@@ -83,7 +100,7 @@ public class CreditCardDB {
         }
     }
 
-    public void saveCards(){
+    private void saveCards(){
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_preferences), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
@@ -92,5 +109,14 @@ public class CreditCardDB {
         editor.putString("cards", json_cards);
         editor.putString("current", json_currnet);
         editor.apply();
+    }
+
+    public CreditCard getCardByTitle(String title){
+        for(CreditCard card : cards){
+            if(card.getTitle().equals(title)){
+                return card;
+            }
+        }
+        return null;
     }
 }

@@ -13,6 +13,15 @@ import com.example.user.budgetapp.R;
 
 public class IconInfo extends DialogFragment {
 
+
+    public static final String Icon = "icon";
+    public static final String Type = "type";
+    public static final String Title = "title";
+    public static final String Cost = "cost";
+    public static final String Date = "date";
+    public static final String CardTitle = "cardTitle";
+    public static final String CardIcon = "cardIcon";
+
     public IconInfo(){}
 
     @NonNull
@@ -20,16 +29,19 @@ public class IconInfo extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.icon_info_layout, null);
 
-        ImageView icon = v.findViewById(R.id.icon_info_pic);
+        ImageView icon = v.findViewById(R.id.icon_info_pic), cardIcon = v.findViewById(R.id.icon_info_card_pic);
         TextView type = v.findViewById(R.id.icon_info_type), title = v.findViewById(R.id.icon_info_title),
-                cost = v.findViewById(R.id.icon_info_cost), date = v.findViewById(R.id.icon_info_date);
+                cost = v.findViewById(R.id.icon_info_cost), date = v.findViewById(R.id.icon_info_date),
+                cardTitle = v.findViewById(R.id.icon_info_card_title);
 
         final Bundle args = getArguments();
-        icon.setImageResource(args.getInt("icon"));
-        type.setText(args.getString("type"));
-        title.setText(args.getString("title"));
-        cost.setText(args.getString("cost"));
-        date.setText("Created: " + args.getString("date"));
+        icon.setImageResource(args.getInt(Icon));
+        type.setText(args.getString(Type));
+        title.setText(args.getString(Title));
+        cost.setText(args.getString(Cost));
+        date.setText("Created: " + args.getString(Date));
+        cardIcon.setImageResource(args.getInt(CardIcon));
+        cardTitle.setText(args.getString(CardTitle));
 
         return new AlertDialog.Builder(getContext())
                 .setView(v)

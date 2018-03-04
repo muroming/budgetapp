@@ -1,6 +1,7 @@
 package layout;
 
 
+import Utils.DataStructures.CreditCard;
 import Utils.DataStructures.CreditCardDB;
 import Utils.DataStructures.Icon;
 import Utils.DataStructures.IconDB;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.example.user.budgetapp.MainActivity;
 import com.example.user.budgetapp.R;
 
 import java.util.ArrayList;
@@ -24,8 +26,10 @@ import java.util.List;
 public class CreateIconFragment extends Fragment {
 
     private EditText cost;
-    private TextView selected;
+    private Spinner spinner;
     private List<ImageView> icons;
+    private ArrayAdapter<String> spinnerAdapter;
+    private boolean stateSelected = false;
 
     public CreateIconFragment() {
         // Required empty public constructor
@@ -41,12 +45,40 @@ public class CreateIconFragment extends Fragment {
         EditText title = v.findViewById(R.id.create_icon_title);
         cost = v.findViewById(R.id.create_icon_cost);
         Button addButton = v.findViewById(R.id.create_icon_button);
+        spinner = v.findViewById(R.id.create_icon_spinner);
+
         icons = new ArrayList<>();
         icons.add((ImageView) v.findViewById(R.id.create_icon_food));
         icons.add((ImageView) v.findViewById(R.id.create_icon_transport));
         icons.add((ImageView) v.findViewById(R.id.create_icon_clothes));
         icons.add((ImageView) v.findViewById(R.id.create_icon_other));
-        selected = v.findViewById(R.id.create_icon_selected);
+
+        spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        final ArrayList<String> cardsTitle = new ArrayList<>();
+        cardsTitle.add("Current card");
+        for (CreditCard card : CreditCardDB.getDatabase().getCards()) {
+            cardsTitle.add(card.getTitle());
+        }
+        spinnerAdapter.addAll(cardsTitle);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String title = cardsTitle.get(position);
+                if (title.equals("Current card")) {
+                    icon.setCard(CreditCardDB.getDatabase().getCurrentCard());
+                } else {
+                    icon.setCard(CreditCardDB.getDatabase().getCardByTitle(title));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //Setting Listeners
         for (final ImageView view : icons) {//Icon clicks
             view.setOnClickListener(new View.OnClickListener() {
@@ -54,19 +86,23 @@ public class CreateIconFragment extends Fragment {
                 public void onClick(View v) {
                     switch (icons.indexOf(view)) {
                         case 0: {
-                            selected.setText(getString(R.string.purpose_food));
+                            updateIcons("Food");
+                            icon.setPicId(Icon.STATE.FOOD);
                             break;
                         }
                         case 1: {
-                            selected.setText(getString(R.string.purpose_transport));
+                            updateIcons("Transport");
+                            icon.setPicId(Icon.STATE.TRANSPORT);
                             break;
                         }
                         case 2: {
-                            selected.setText(getString(R.string.purpose_clothes));
+                            updateIcons("Clothes");
+                            icon.setPicId(Icon.STATE.CLOTHES);
                             break;
                         }
                         case 3: {
-                            selected.setText(R.string.purpose_other);
+                            updateIcons("Other");
+                            icon.setPicId(Icon.STATE.OTHER);
                             break;
                         }
                     }
@@ -110,38 +146,23 @@ public class CreateIconFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 boolean isGood = true;
-                if(cost.getText().toString().equals("")){
+                if (cost.getText().toString().equals("")) {
                     Toast.makeText(getContext(), "No cost", Toast.LENGTH_SHORT).show();
                     isGood = false;
                 }
-                switch (selected.getText().toString()) {
-                    case "Food": {
-                        icon.setPicId(Icon.STATE.FOOD);
-                        break;
-                    }
-                    case "Transport": {
-                        icon.setPicId(Icon.STATE.TRANSPORT);
-                        break;
-                    }
-                    case "Clothes": {
-                        icon.setPicId(Icon.STATE.CLOTHES);
-                        break;
-                    }
-                    case "Other": {
-                        icon.setPicId(Icon.STATE.OTHER);
-                        break;
-                    }
-                    default:{
-                        Toast.makeText(getContext(), "No purpose selected", Toast.LENGTH_SHORT).show();
-                        isGood = false;
-                    }
+                if (!stateSelected) {
+                    Toast.makeText(getContext(), "No purpose selected", Toast.LENGTH_SHORT).show();
+                    isGood = false;
                 }
-                if(isGood) {//Add icon and spent money
-                    icon.setDate(new Date());
-                    IconDB.getDB().insertIcon(icon);
-                    CreditCardDB.getDatabase().spendMoney(Integer.valueOf(cost.getText().toString()));
-                    getActivity().setResult(0);
-                    getActivity().finish();
+                if (isGood) {//Add icon and spent money
+                    if (icon.getCard() != null) {
+                        icon.setDate(new Date());
+                        IconDB.getDB().insertIcon(icon);
+                        CreditCardDB.getDatabase().spendMoney(icon);
+                        ((MainActivity) getActivity()).returnToMainPage();
+                    } else {
+                        Toast.makeText(getContext(), "Wrong card selected", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -149,4 +170,28 @@ public class CreateIconFragment extends Fragment {
         return v;
     }
 
+
+    private void updateIcons(String selected) {
+        stateSelected = true;
+        if (selected.equals("Food")) {
+            icons.get(0).setImageResource(R.drawable.food_selected);
+        } else {
+            icons.get(0).setImageResource(R.drawable.food);
+        }
+        if(selected.equals("Transport")) {
+            icons.get(1).setImageResource(R.drawable.car_selected);
+        } else {
+            icons.get(1).setImageResource(R.drawable.car);
+        }
+        if(selected.equals("Clothes")) {
+            icons.get(2).setImageResource(R.drawable.clothes_selected);
+        } else {
+            icons.get(2).setImageResource(R.drawable.clothes);
+        }
+        if(selected.equals("Other")) {
+            icons.get(3).setImageResource(R.drawable.money_selected);
+        } else {
+            icons.get(3).setImageResource(R.drawable.money);
+        }
+    }
 }

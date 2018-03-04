@@ -8,25 +8,27 @@ import java.util.UUID;
 
 public class Icon {
     public enum STATE {
-        FOOD, CLOTHES, TRANSPORT, OTHER, ADD
+        FOOD, CLOTHES, TRANSPORT, OTHER
     }
 
     private String title, cost;
     private STATE picId;
     private Date date;
+    private CreditCard card;
 
     private UUID id;
-
-    Icon(String title, String cost, STATE picId) {
-        this.title = title;
-        this.cost = cost;
-        this.picId = picId;
-        id = UUID.randomUUID();
-    }
 
     public String getDate() {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM 'at' HH:mm");
         return format.format(date);
+    }
+
+    public CreditCard getCard() {
+        return card;
+    }
+
+    public void setCard(CreditCard card) {
+        this.card = card;
     }
 
     public void setDate(Date date) {
@@ -57,6 +59,10 @@ public class Icon {
         return cost;
     }
 
+    public int getCostInt(){
+        return Integer.parseInt(cost.substring(0, cost.length() - 1));
+    }
+
     public void setCost(String cost) {
         this.cost = cost;
     }
@@ -64,10 +70,6 @@ public class Icon {
     public int getPicId() {
         int id = 0;
         switch (picId) {
-            case ADD: {
-                id = R.drawable.plus;
-                break;
-            }
             case FOOD: {
                 id = R.drawable.food;
                 break;
