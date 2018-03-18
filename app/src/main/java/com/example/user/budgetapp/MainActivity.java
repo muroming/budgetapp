@@ -1,6 +1,5 @@
 package com.example.user.budgetapp;
 
-import Utils.DataStructures.IconDB;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,12 +23,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //set contexts for DBs
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         initPages();
         viewPager = findViewById(R.id.main_view_pager);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(1);
+        viewPager.setOffscreenPageLimit(2);
     }
 
     private void initPages() {

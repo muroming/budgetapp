@@ -1,6 +1,21 @@
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="layout.CreditCardFragment" android:id="@+id/credit_card_recycler">
-</android.support.v7.widget.RecyclerView>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 tools:context="layout.CreditCardFragment" android:id="@+id/credit_card_recycler">
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+            android:id="@+id/card_add_button"
+            android:background="@color/card_add"
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:text="@string/button_add"/>
+</LinearLayout>

@@ -25,24 +25,32 @@ import java.util.List;
  */
 public class CreateIconFragment extends Fragment {
 
-    private EditText cost;
+    private EditText cost, title;
     private Spinner spinner;
     private List<ImageView> icons;
     private ArrayAdapter<String> spinnerAdapter;
-    private boolean stateSelected = false;
+
+    private boolean stateSelected;
+    private Icon icon;
 
     public CreateIconFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (icon == null) {
+            icon = new Icon();
+            stateSelected = false;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final Icon icon = new Icon();
         View v = inflater.inflate(R.layout.fragment_create_icon, container, false);
-        EditText title = v.findViewById(R.id.create_icon_title);
+        title = v.findViewById(R.id.create_icon_title);
         cost = v.findViewById(R.id.create_icon_cost);
         Button addButton = v.findViewById(R.id.create_icon_button);
         spinner = v.findViewById(R.id.create_icon_spinner);
@@ -117,7 +125,9 @@ public class CreateIconFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                icon.setTitle(s.toString());
+                if (icon != null) {
+                    icon.setTitle(s.toString());
+                }
             }
 
             @Override
@@ -133,7 +143,9 @@ public class CreateIconFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                icon.setCost(s.toString() + "$");
+                if (icon != null) {
+                    icon.setCost(s.toString() + "$");
+                }
             }
 
             @Override
@@ -159,6 +171,7 @@ public class CreateIconFragment extends Fragment {
                         icon.setDate(new Date());
                         IconDB.getDB().insertIcon(icon);
                         CreditCardDB.getDatabase().spendMoney(icon);
+                        clearFragment();
                         ((MainActivity) getActivity()).returnToMainPage();
                     } else {
                         Toast.makeText(getContext(), "Wrong card selected", Toast.LENGTH_SHORT).show();
@@ -170,6 +183,13 @@ public class CreateIconFragment extends Fragment {
         return v;
     }
 
+    private void clearFragment() {
+        icon = null;
+        title.setText("");
+        cost.setText("");
+        updateIcons("None");
+    }
+
 
     private void updateIcons(String selected) {
         stateSelected = true;
@@ -178,17 +198,17 @@ public class CreateIconFragment extends Fragment {
         } else {
             icons.get(0).setImageResource(R.drawable.food);
         }
-        if(selected.equals("Transport")) {
+        if (selected.equals("Transport")) {
             icons.get(1).setImageResource(R.drawable.car_selected);
         } else {
             icons.get(1).setImageResource(R.drawable.car);
         }
-        if(selected.equals("Clothes")) {
+        if (selected.equals("Clothes")) {
             icons.get(2).setImageResource(R.drawable.clothes_selected);
         } else {
             icons.get(2).setImageResource(R.drawable.clothes);
         }
-        if(selected.equals("Other")) {
+        if (selected.equals("Other")) {
             icons.get(3).setImageResource(R.drawable.money_selected);
         } else {
             icons.get(3).setImageResource(R.drawable.money);

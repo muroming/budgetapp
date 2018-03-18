@@ -3,6 +3,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create_icon_title">Title</string>
+    <string name="button_add">Add</string>
     <string name="create_icon_header">Create new icon</string>
     <string name="create_icon_cost">Cost</string>
     <string name="shared_preferences">SHPreferences</string>
@@ -18,4 +19,5 @@
         <item>Cash</item>
         <item>Current card</item>
     </string-array>
+
 </resources>
