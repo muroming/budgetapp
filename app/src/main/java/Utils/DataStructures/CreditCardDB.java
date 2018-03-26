@@ -44,13 +44,13 @@ public class CreditCardDB {
         saveCards();
     }
 
-    public void spendMoney(Icon icon){
+    public void spendMoney(Icon icon) {
         icon.getCard().setMoney(icon.getCard().getMoney() - icon.getCostInt());
         moneySpend += icon.getCostInt();
         saveCards();
     }
 
-    public void deleteTransaction(Icon icon){
+    public void deleteTransaction(Icon icon) {
         icon.getCard().setMoney(icon.getCard().getMoney() + icon.getCostInt());
         moneySpend -= icon.getCostInt();
         saveCards();
@@ -61,8 +61,9 @@ public class CreditCardDB {
         saveCards();
     }
 
-    public void setContext(Context context) {
+    public CreditCardDB setContext(Context context) {
         this.context = context;
+        return database;
     }
 
     public List<CreditCard> getCards() {
@@ -77,30 +78,37 @@ public class CreditCardDB {
         return currentCard;
     }
 
+    public void addCard(CreditCard card) {
+        cards.add(card);
+        saveCards();
+    }
+
     public void setCurrentCard(CreditCard currentCard) {
         this.currentCard = currentCard;
     }
 
-    public void loadCards(){
+    public void loadCards() {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_preferences), Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json_cards = preferences.getString("cards", "");
         String json_current = preferences.getString("current", "");
-        if(json_cards.equals("")){
+        if (json_cards.equals("")) {
             ArrayList<CreditCard> data = new ArrayList<>();
             setCards(data);
-        }else{
-            ArrayList<CreditCard> data = gson.fromJson(json_cards, new TypeToken<ArrayList<CreditCard>>(){}.getType());
+        } else {
+            ArrayList<CreditCard> data = gson.fromJson(json_cards, new TypeToken<ArrayList<CreditCard>>() {
+            }.getType());
             setCards(data);
         }
-        if(json_current.equals("")){
+        if (json_current.equals("")) {
             currentCard = null;
-        }else{
-            currentCard = gson.fromJson(json_current, new TypeToken<CreditCard>(){}.getType());
+        } else {
+            currentCard = gson.fromJson(json_current, new TypeToken<CreditCard>() {
+            }.getType());
         }
     }
 
-    private void saveCards(){
+    private void saveCards() {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.shared_preferences), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
@@ -111,9 +119,9 @@ public class CreditCardDB {
         editor.apply();
     }
 
-    public CreditCard getCardByTitle(String title){
-        for(CreditCard card : cards){
-            if(card.getTitle().equals(title)){
+    public CreditCard getCardByTitle(String title) {
+        for (CreditCard card : cards) {
+            if (card.getTitle().equals(title)) {
                 return card;
             }
         }

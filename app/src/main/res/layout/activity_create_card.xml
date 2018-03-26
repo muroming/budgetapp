@@ -1,8 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <LinearLayout
+            android:id="@+id/sec1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_card_title"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/card_title_hint"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/create_card_title"/>
+    </LinearLayout>
 
-</LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/sec2"
+            android:layout_below="@id/sec1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_card_balance"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/card_balance_hint"
+                android:inputType="number"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/create_card_balance"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_below="@id/sec2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+                                                                                                                                            android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_card_type"/>
+        <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/create_card_system"/>
+    </LinearLayout>
+    <Button
+            android:layout_alignParentBottom="true"
+            android:id="@+id/create_card_add_button"
+            android:background="@color/card_add"
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:text="@string/button_add"/>
+</RelativeLayout>

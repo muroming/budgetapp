@@ -23,6 +23,7 @@ public class CreditCard {
 
     public CreditCard() {
         id = UUID.randomUUID();
+        money = 0;
     }
 
     public UUID getId() {
@@ -55,6 +56,21 @@ public class CreditCard {
 
     public void setCardType(Type cardType) {
         this.cardType = cardType;
+    }
+
+    public void setCardType(String type){
+        if (type.equals("Visa")){
+            setCardType(Type.Visa);
+        }
+        if (type.equals("MasterCard")){
+            setCardType(Type.Mastercard);
+        }
+        if (type.equals("Mir")){
+            setCardType(Type.Mir);
+        }
+        if (type.equals("AmericanExpress")){
+            setCardType(Type.AmericanExpress);
+        }
     }
 
     public String getTitle() {

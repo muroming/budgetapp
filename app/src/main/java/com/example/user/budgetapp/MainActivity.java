@@ -16,14 +16,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ViewPager viewPager;
-    List<Fragment> pages;
+    private ViewPager viewPager;
+    private List<Fragment> pages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         initPages();
         viewPager = findViewById(R.id.main_view_pager);
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter{
-        public ViewPagerAdapter(FragmentManager fm) {
+        ViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

@@ -26,6 +26,15 @@ public class CreditCardFragment extends Fragment {
     private CreditCardAdapter adapter;
     private View currentCard;
 
+    private static final int CREATE_CARD = 1;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CREATE_CARD && resultCode == 0){
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +50,7 @@ public class CreditCardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CreateCardActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_CARD);
             }
         });
         return v;
@@ -50,17 +59,15 @@ public class CreditCardFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (adapter != null) {
+            adapter.setCards(CreditCardDB.getDatabase().getCards());
             adapter.notifyDataSetChanged();
         }
     }
 
     private void init_adapter() {
         adapter = new CreditCardAdapter(this);
-        CreditCardDB.getDatabase().setContext(getContext());
-        ArrayList<CreditCard> cards = new ArrayList<>();
-        cards.add(new CreditCard(CreditCard.Type.Visa, "VisaCard", 123));
-        cards.add(new CreditCard(CreditCard.Type.AmericanExpress, "AmericanCard", 123456));
-        adapter.setCards(cards);
+        CreditCardDB.getDatabase().setContext(getContext()).loadCards();
+        adapter.setCards(CreditCardDB.getDatabase().getCards());
         adapter.notifyDataSetChanged();
     }
 

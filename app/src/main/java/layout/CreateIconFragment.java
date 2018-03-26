@@ -70,22 +70,6 @@ public class CreateIconFragment extends Fragment {
         }
         spinnerAdapter.addAll(cardsTitle);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String title = cardsTitle.get(position);
-                if (title.equals("Current card")) {
-                    icon.setCard(CreditCardDB.getDatabase().getCurrentCard());
-                } else {
-                    icon.setCard(CreditCardDB.getDatabase().getCardByTitle(title));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         //Setting Listeners
         for (final ImageView view : icons) {//Icon clicks
@@ -167,6 +151,7 @@ public class CreateIconFragment extends Fragment {
                     isGood = false;
                 }
                 if (isGood) {//Add icon and spent money
+                    checkCard();
                     if (icon.getCard() != null) {
                         icon.setDate(new Date());
                         IconDB.getDB().insertIcon(icon);
@@ -190,6 +175,14 @@ public class CreateIconFragment extends Fragment {
         updateIcons("None");
     }
 
+    private void checkCard(){
+        String cardname = spinner.getSelectedItem().toString();
+        if (cardname.equals("Current card")) {
+            icon.setCard(CreditCardDB.getDatabase().getCurrentCard());
+        } else {
+            icon.setCard(CreditCardDB.getDatabase().getCardByTitle(cardname));
+        }
+    }
 
     private void updateIcons(String selected) {
         stateSelected = true;
